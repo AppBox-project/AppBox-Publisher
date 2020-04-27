@@ -1,1 +1,6 @@
-{ "name": "Sample app" }
+{
+  "name": "Sample app",
+  "color": { "r": 185, "g": 111, "b": 236 },
+  "icon": "FaAccessibleIcon",
+  "mobileSettings": { "actionsDisplayAs": "bottom-navigation" }
+}
