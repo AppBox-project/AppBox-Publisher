@@ -10,18 +10,20 @@ const AppPublisherSitePages: React.FC<{
   site;
 }> = ({ context, site }) => {
   // Vars
-  const [pages, setPages] = useState<any>();
+  const [navigation, setNavigation] = useState<any>();
+  const [pages, setPages] = useState();
 
   // Lifecycle
   useEffect(() => {
     if (site.data.pageObject) {
       context.getObjects(site.data.pageObject, {}, (response) => {
         if (response.success) {
+          setPages(response.data);
           const pageNav = [];
           response.data.map((page) => {
             pageNav.push({ label: page.data.title, id: page.data.slug });
           });
-          setPages(pageNav);
+          setNavigation(pageNav);
         }
       });
     }
@@ -30,15 +32,16 @@ const AppPublisherSitePages: React.FC<{
   // UI
   if (!site.data.pageObject)
     return <AppPublisherSitePagesNoObject context={context} site={site} />;
-  if (!pages) return <context.UI.Loading />;
+  if (!navigation) return <context.UI.Loading />;
   return (
     <context.UI.Layouts.ListDetailLayout
       context={context}
       baseUrl={`/publisher/${site.data.id}/pages`}
       DetailComponent={AppPublisherSitePagesDetail}
+      detailComponentProps={{ site, pages }}
       navFixedIcon={<FaFileAlt />}
       navWidth={2}
-      list={pages}
+      list={navigation}
       addFunction={() => {
         context.setDialog({
           display: true,
