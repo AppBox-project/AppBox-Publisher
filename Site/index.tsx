@@ -4,6 +4,7 @@ import { useHistory } from "react-router-dom";
 import { Typography, Tabs, Tab } from "@material-ui/core";
 import AppPublisherSiteDashboard from "./Dashboard";
 import AppPublisherSiteDesign from "./Design";
+import AppPublisherSitePages from "./Pages";
 
 const AppPublisherSite: React.FC<{
   match: { isExact: boolean };
@@ -50,6 +51,9 @@ const AppPublisherSite: React.FC<{
       )}
       {currentTab === "design" && (
         <AppPublisherSiteDesign context={context} site={site} />
+      )}
+      {currentTab === "pages" && (
+        <AppPublisherSitePages context={context} site={site} />
       )}
     </>
   );
