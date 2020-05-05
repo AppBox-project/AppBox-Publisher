@@ -1,7 +1,7 @@
 import FourOhFour from "../../Components/FourOhFour";
-import { FaPlusSquare, FaTh } from "react-icons/fa";
-import AppSAMPLEPageOne from "./SamplePageOne";
+import { FaPlusSquare, FaTh, FaGlobeEurope } from "react-icons/fa";
 import { AppContextType } from "../../Utils/Types";
+import AppPublisherSite from "./Site";
 
 export default class App {
   context: AppContextType;
@@ -13,23 +13,39 @@ export default class App {
   getActions = () => {
     return new Promise((resolve) => {
       this.context.getObjects("publish-sites", {}, (response) => {
-        console.log(response);
-      });
+        if (response.success) {
+          // Dashboard
+          const pages = [
+            {
+              key: "dashboard",
+              label: "Dashboard",
+              component: FourOhFour,
+              icon: FaTh,
+            },
+          ];
 
-      resolve([
-        {
-          key: "dashboard",
-          label: "Dashboard",
-          component: FourOhFour,
-          icon: FaTh,
-        },
-        {
-          key: "add",
-          label: "Create website",
-          component: AppSAMPLEPageOne,
-          icon: FaPlusSquare,
-        },
-      ]);
+          // List all sites
+          response.data.map((site) => {
+            pages.push({
+              key: site.data.id,
+              label: site.data.name,
+              component: AppPublisherSite,
+              icon: FaGlobeEurope,
+            });
+          });
+
+          // Add new page
+          pages.push({
+            key: "add",
+            label: "Create website",
+            component: FourOhFour,
+            icon: FaPlusSquare,
+          });
+          resolve(pages);
+        } else {
+          console.log("Could not load sites", response.reason);
+        }
+      });
     });
   };
 }

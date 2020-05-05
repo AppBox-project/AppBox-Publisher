@@ -1,6 +1,6 @@
 {
   "name": "Publisher",
-  "color": { "r": 56, "g": 20, "b": 96 },
+  "color": { "r": 25, "g": 133, "b": 161 },
   "icon": "FaFeatherAlt",
   "mobileSettings": { "actionsDisplayAs": "bottom-navigation" }
 }
