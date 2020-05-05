@@ -1,6 +1,6 @@
 {
-  "name": "Sample app",
-  "color": { "r": 185, "g": 111, "b": 236 },
-  "icon": "FaAccessibleIcon",
+  "name": "Publisher",
+  "color": { "r": 56, "g": 20, "b": 96 },
+  "icon": "FaFeatherAlt",
   "mobileSettings": { "actionsDisplayAs": "bottom-navigation" }
 }

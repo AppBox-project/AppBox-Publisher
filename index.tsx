@@ -1,9 +1,10 @@
 import FourOhFour from "../../Components/FourOhFour";
-import { FaFootballBall, FaAsterisk } from "react-icons/fa";
+import { FaPlusSquare, FaTh } from "react-icons/fa";
 import AppSAMPLEPageOne from "./SamplePageOne";
+import { AppContextType } from "../../Utils/Types";
 
 export default class App {
-  context: any;
+  context: AppContextType;
 
   constructor(context) {
     this.context = context;
@@ -11,18 +12,22 @@ export default class App {
 
   getActions = () => {
     return new Promise((resolve) => {
+      this.context.getObjects("publish-sites", {}, (response) => {
+        console.log(response);
+      });
+
       resolve([
         {
-          key: "desktop",
-          label: "Desktop",
+          key: "dashboard",
+          label: "Dashboard",
           component: FourOhFour,
-          icon: FaAsterisk,
+          icon: FaTh,
         },
         {
-          key: "notes",
-          label: "Quick notes",
+          key: "add",
+          label: "Create website",
           component: AppSAMPLEPageOne,
-          icon: FaFootballBall,
+          icon: FaPlusSquare,
         },
       ]);
     });
