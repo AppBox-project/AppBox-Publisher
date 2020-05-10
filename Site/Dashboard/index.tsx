@@ -1,6 +1,6 @@
 import React from "react";
 import { AppContextType } from "../../../../Utils/Types";
-import { Typography, Paper, Grid } from "@material-ui/core";
+import { Typography, Paper, Grid, Button } from "@material-ui/core";
 import styles from "./styles.module.scss";
 
 const AppPublisherSiteDashboard: React.FC<{
@@ -38,6 +38,27 @@ const AppPublisherSiteDashboard: React.FC<{
                   Statistics
                 </Typography>
                 Bla
+              </Paper>
+            </context.UI.Animations.AnimationItem>
+          </Grid>
+          <Grid item xs={12} style={{ padding: 10, boxSizing: "border-box" }}>
+            <context.UI.Animations.AnimationItem>
+              <Paper className="paper">
+                <Typography variant="h6" gutterBottom>
+                  Publish
+                </Typography>
+                <Button
+                  fullWidth
+                  color="primary"
+                  variant="contained"
+                  onClick={() => {
+                    context.callBackendAction("publishSite", {
+                      siteId: site._id,
+                    });
+                  }}
+                >
+                  Publish site
+                </Button>
               </Paper>
             </context.UI.Animations.AnimationItem>
           </Grid>
