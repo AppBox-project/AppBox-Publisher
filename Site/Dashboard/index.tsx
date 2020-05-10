@@ -53,7 +53,7 @@ const AppPublisherSiteDashboard: React.FC<{
                   variant="contained"
                   onClick={() => {
                     context.callBackendAction("publishSite", {
-                      siteId: site._id,
+                      siteId: site.data.id,
                     });
                   }}
                 >
