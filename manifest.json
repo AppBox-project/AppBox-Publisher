@@ -1,6 +1,7 @@
 {
   "name": "Publisher",
-  "color": { "r": 25, "g": 133, "b": 161 },
+  "color": { "r": 241, "g": 155, "b": 71 },
   "icon": "FaFeatherAlt",
-  "mobileSettings": { "actionsDisplayAs": "bottom-navigation" }
+  "mobileSettings": { "actionsDisplayAs": "bottom-navigation" },
+  "handlerFor": {"publish-sites": "/publisher/{primary}"}
 }
