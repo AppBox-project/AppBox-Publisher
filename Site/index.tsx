@@ -44,6 +44,8 @@ const AppPublisherSite: React.FC<{
         <Tab label="Dashboard" value="dashboard" />
         <Tab label="Design" value="design" />
         <Tab label="Pages" value="pages" />
+        <Tab label="Data" value="data" />
+        <Tab label="Menus" value="menus" />
         <Tab label="Scheduled refresh" value="schedule" />
       </Tabs>
       {currentTab === "dashboard" && (

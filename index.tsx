@@ -2,6 +2,7 @@ import FourOhFour from "../../Components/FourOhFour";
 import { FaPlusSquare, FaTh, FaGlobeEurope } from "react-icons/fa";
 import { AppContextType } from "../../Utils/Types";
 import AppPublisherSite from "./Site";
+import PublisherNewSite from "./NewSite";
 
 export default class App {
   context: AppContextType;
@@ -38,7 +39,7 @@ export default class App {
           pages.push({
             key: "add",
             label: "Create website",
-            component: FourOhFour,
+            component: PublisherNewSite,
             icon: FaPlusSquare,
           });
           resolve(pages);
