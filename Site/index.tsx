@@ -12,7 +12,7 @@ const AppPublisherSite: React.FC<{
   action: string;
 }> = ({ context, action, match: { isExact } }) => {
   // Var
-  const [site, setSite] = useState();
+  const [site, setSite] = useState<any>();
   const currentTab = isExact
     ? "dashboard"
     : window.location.href.split(`publisher/${action}/`)[1].match("/")

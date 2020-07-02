@@ -2,6 +2,8 @@ import React from "react";
 import { AppContextType } from "../../../../Utils/Types";
 import { Typography, Paper, Grid, Button } from "@material-ui/core";
 import styles from "./styles.module.scss";
+import { FaGlobeEurope } from "react-icons/fa";
+import { RiSendPlaneLine } from "react-icons/ri";
 
 const AppPublisherSiteDashboard: React.FC<{
   context: AppContextType;
@@ -22,7 +24,22 @@ const AppPublisherSiteDashboard: React.FC<{
                 <Typography variant="h6" gutterBottom>
                   {site.data.name}
                 </Typography>
-                Bla
+                <Button fullWidth startIcon={<FaGlobeEurope />} color="primary">
+                  View
+                </Button>
+                <Button
+                  fullWidth
+                  startIcon={<RiSendPlaneLine />}
+                  color="primary"
+                  variant="contained"
+                  onClick={() => {
+                    context.callBackendAction("publishSite", {
+                      siteId: site.data.id,
+                    });
+                  }}
+                >
+                  Publish
+                </Button>
               </Paper>
             </context.UI.Animations.AnimationItem>
           </Grid>
@@ -38,27 +55,6 @@ const AppPublisherSiteDashboard: React.FC<{
                   Statistics
                 </Typography>
                 Bla
-              </Paper>
-            </context.UI.Animations.AnimationItem>
-          </Grid>
-          <Grid item xs={12} style={{ padding: 10, boxSizing: "border-box" }}>
-            <context.UI.Animations.AnimationItem>
-              <Paper className="paper">
-                <Typography variant="h6" gutterBottom>
-                  Publish
-                </Typography>
-                <Button
-                  fullWidth
-                  color="primary"
-                  variant="contained"
-                  onClick={() => {
-                    context.callBackendAction("publishSite", {
-                      siteId: site.data.id,
-                    });
-                  }}
-                >
-                  Publish site
-                </Button>
               </Paper>
             </context.UI.Animations.AnimationItem>
           </Grid>

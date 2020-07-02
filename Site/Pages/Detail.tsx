@@ -17,7 +17,7 @@ const AppPublisherSitePagesDetail: React.FC<{
   pages,
 }) => {
   // Vars
-  const [page, setPage] = useState();
+  const [page, setPage] = useState<any>();
 
   // Lifecycle
   useEffect(() => {
@@ -33,7 +33,7 @@ const AppPublisherSitePagesDetail: React.FC<{
   return (
     <context.UI.Animations.AnimationContainer>
       <context.UI.Animations.AnimationItem>
-        <Typography variant="h6">{page.data.title}</Typography>
+        <Typography variant="h6">{page.data.name}</Typography>
       </context.UI.Animations.AnimationItem>
     </context.UI.Animations.AnimationContainer>
   );

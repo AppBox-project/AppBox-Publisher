@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { AppContextType } from "../../../../Utils/Types";
 import styles from "./styles.module.scss";
-import AppPublisherSitePagesNoObject from "./NoObject";
 import AppPublisherSitePagesDetail from "./Detail";
 import { FaFileAlt } from "react-icons/fa";
 
@@ -10,28 +9,24 @@ const AppPublisherSitePages: React.FC<{
   site;
 }> = ({ context, site }) => {
   // Vars
-  const [navigation, setNavigation] = useState<any>();
-  const [pages, setPages] = useState();
+  const [navigation, setNavigation] = useState<any>(); // Menu items
+  const [pages, setPages] = useState<any>(); // Full page data
 
   // Lifecycle
   useEffect(() => {
-    if (site.data.pageObject) {
-      context.getObjects(site.data.pageObject, {}, (response) => {
-        if (response.success) {
-          setPages(response.data);
-          const pageNav = [];
-          response.data.map((page) => {
-            pageNav.push({ label: page.data.title, id: page.data.slug });
-          });
-          setNavigation(pageNav);
-        }
-      });
-    }
+    context.getObjects("publisher-pages", {}, (response) => {
+      if (response.success) {
+        setPages(response.data);
+        const pageNav = [];
+        response.data.map((page) => {
+          pageNav.push({ label: page.data.name, id: page.data.slug });
+        });
+        setNavigation(pageNav);
+      }
+    });
   }, [site.data.pageObject]);
 
   // UI
-  if (!site.data.pageObject)
-    return <AppPublisherSitePagesNoObject context={context} site={site} />;
   if (!navigation) return <context.UI.Loading />;
   return (
     <context.UI.Layouts.ListDetailLayout
