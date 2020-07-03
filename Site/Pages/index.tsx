@@ -14,16 +14,20 @@ const AppPublisherSitePages: React.FC<{
 
   // Lifecycle
   useEffect(() => {
-    context.getObjects("publisher-pages", {}, (response) => {
-      if (response.success) {
-        setPages(response.data);
-        const pageNav = [];
-        response.data.map((page) => {
-          pageNav.push({ label: page.data.name, id: page.data.slug });
-        });
-        setNavigation(pageNav);
+    context.getObjects(
+      "publisher-pages",
+      { "data.site": site._id },
+      (response) => {
+        if (response.success) {
+          setPages(response.data);
+          const pageNav = [];
+          response.data.map((page) => {
+            pageNav.push({ label: page.data.title, id: page.data.slug });
+          });
+          setNavigation(pageNav);
+        }
       }
-    });
+    );
   }, [site.data.pageObject]);
 
   // UI
@@ -49,9 +53,11 @@ const AppPublisherSitePages: React.FC<{
             {
               label: "Add",
               onClick: (newObject) => {
+                console.log(newObject);
+
                 context.addObject(
-                  site.data.pageObject,
-                  newObject,
+                  "publisher-pages",
+                  { ...newObject, site: site._id },
                   (response) => {
                     console.log(response);
                   }

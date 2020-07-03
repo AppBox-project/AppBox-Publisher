@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { AppContextType } from "../../../../Utils/Types";
 import { find } from "lodash";
 import { Typography } from "@material-ui/core";
+import PublisherLayoutDesigner from "../../Components/LayoutDesigner";
 
 const AppPublisherSitePagesDetail: React.FC<{
   match: { params: { detailId } };
@@ -33,7 +34,10 @@ const AppPublisherSitePagesDetail: React.FC<{
   return (
     <context.UI.Animations.AnimationContainer>
       <context.UI.Animations.AnimationItem>
-        <Typography variant="h6">{page.data.name}</Typography>
+        <Typography variant="h4">{page.data.title}</Typography>
+      </context.UI.Animations.AnimationItem>
+      <context.UI.Animations.AnimationItem>
+        <PublisherLayoutDesigner />
       </context.UI.Animations.AnimationItem>
     </context.UI.Animations.AnimationContainer>
   );

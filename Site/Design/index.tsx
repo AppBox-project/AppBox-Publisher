@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { AppContextType } from "../../../../Utils/Types";
 import { Typography, Paper, Grid, Button } from "@material-ui/core";
 import styles from "./styles.module.scss";
@@ -9,15 +9,26 @@ const AppPublisherSiteDesign: React.FC<{
   site;
 }> = ({ context, site }) => {
   // Vars
-  console.log(site);
+  const [siteSettings, setSiteSettings] = useState<{}>({});
 
   // Lifecycle
+  useEffect(() => {
+    if (site.data.siteSettings) {
+      setSiteSettings(site.data.siteSettings);
+    }
+  }, [site.data]);
+
   // UI
   return (
     <div className={styles.root}>
       <context.UI.Animations.AnimationContainer>
         <Grid container>
-          <Grid item xs={6} style={{ padding: 10, boxSizing: "border-box" }}>
+          <Grid
+            item
+            xs={12}
+            md={6}
+            style={{ padding: 10, boxSizing: "border-box" }}
+          >
             <context.UI.Animations.AnimationItem>
               <Paper className="paper">
                 <Typography variant="h6" gutterBottom>
@@ -32,7 +43,7 @@ const AppPublisherSiteDesign: React.FC<{
               </Paper>
             </context.UI.Animations.AnimationItem>
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={12} md={6}>
             <context.UI.Animations.AnimationItem>
               <Paper className="paper">
                 <Typography variant="h6" gutterBottom>
@@ -40,8 +51,6 @@ const AppPublisherSiteDesign: React.FC<{
                 </Typography>
                 <Grid container>
                   {site.data.design_settings.map((dsetting) => {
-                    console.log(dsetting);
-
                     return (
                       <>
                         <Grid item xs={6}>
@@ -52,13 +61,39 @@ const AppPublisherSiteDesign: React.FC<{
                         <Grid item xs={6}>
                           <context.UI.Inputs.TextInput
                             label={dsetting.label}
-                            value={dsetting.default || ""}
+                            onChange={(value) => {
+                              setSiteSettings({
+                                ...siteSettings,
+                                [dsetting.key]: value,
+                              });
+                            }}
+                            value={
+                              siteSettings[dsetting.key] ||
+                              dsetting.default ||
+                              ""
+                            }
                           />
                         </Grid>
                       </>
                     );
                   })}
                 </Grid>
+                {JSON.stringify(siteSettings) !==
+                  JSON.stringify(site.data.siteSettings || {}) && (
+                  <Button
+                    fullWidth
+                    color="primary"
+                    onClick={() => {
+                      context.updateObject(
+                        "publish-sites",
+                        { siteSettings: siteSettings },
+                        site._id
+                      );
+                    }}
+                  >
+                    Update
+                  </Button>
+                )}
               </Paper>
             </context.UI.Animations.AnimationItem>
           </Grid>
