@@ -5,8 +5,11 @@ import { AppContextType } from "../../../../../Utils/Types";
 const PublisherLDTypeText: React.FC<{
   block: BlockType;
   context: AppContextType;
-}> = ({ block, context }) => {
-  return <>{block.content}</>;
+  onChange: (value: String) => void;
+}> = ({ block, context, onChange }) => {
+  return (
+    <context.UI.Inputs.RichText value={block.content} onChange={onChange} />
+  );
 };
 
 export default PublisherLDTypeText;

@@ -22,7 +22,7 @@ interface LayoutType {
 }
 
 export interface BlockType {
-  type: "html" | "text" | "layoutitem";
+  type: "html" | "text" | "layoutitem" | "image";
   title: string;
   content: string;
 }
@@ -30,7 +30,8 @@ export interface BlockType {
 const PublisherLayoutDesigner: React.FC<{
   layout: DataType;
   context: AppContextType;
-}> = ({ context, layout }) => {
+  onSave: (response: DataType) => void;
+}> = ({ context, layout, onSave }) => {
   // Vars
   const [newData, setNewData] = useState<DataType>({ layout: [], blocks: {} });
 
@@ -87,7 +88,7 @@ const PublisherLayoutDesigner: React.FC<{
       </Grid>
       <Grid item xs={12} md={3}>
         <context.UI.Design.Card title="Page settings">
-          Test
+          Some information about this page
           {JSON.stringify(newData) !==
             JSON.stringify(layout || { layout: [], blocks: {} }) && (
             <>
@@ -97,7 +98,7 @@ const PublisherLayoutDesigner: React.FC<{
                 color="primary"
                 variant="contained"
                 onClick={() => {
-                  console.log(newData);
+                  onSave(newData);
                 }}
               >
                 Save
@@ -136,6 +137,7 @@ const BlockDisplay: React.FC<{
               { label: "Text", value: "text" },
               { label: "HTML", value: "html" },
               { label: "Item", value: "layoutitem" },
+              { label: "Image", value: "image" },
             ]}
             onChange={(selected) => {
               const blocks = newData.blocks;
@@ -147,7 +149,15 @@ const BlockDisplay: React.FC<{
       </Grid>
       <Divider style={{ marginTop: 5, marginBottom: 10 }} />
       {block.type === "text" && (
-        <PublisherLDTypeText block={block} context={context} />
+        <PublisherLDTypeText
+          block={block}
+          context={context}
+          onChange={(value) => {
+            const blocks = newData.blocks;
+            blocks[id].content = value;
+            setNewData({ ...newData, blocks });
+          }}
+        />
       )}
     </context.UI.Design.Card>
   );

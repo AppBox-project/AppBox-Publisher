@@ -38,7 +38,13 @@ const AppPublisherSitePagesDetail: React.FC<{
           <Typography variant="h4">{page.data.title}</Typography>
         </context.UI.Animations.AnimationItem>
         <context.UI.Animations.AnimationItem>
-          <PublisherLayoutDesigner layout={page.data.body} context={context} />
+          <PublisherLayoutDesigner
+            layout={page.data.body}
+            context={context}
+            onSave={(body) => {
+              context.updateObject("publisher-pages", { body }, page._id);
+            }}
+          />
         </context.UI.Animations.AnimationItem>
       </context.UI.Animations.AnimationContainer>
     </div>

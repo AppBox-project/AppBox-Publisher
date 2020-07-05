@@ -3,6 +3,7 @@ import { FaPlusSquare, FaTh, FaGlobeEurope } from "react-icons/fa";
 import { AppContextType } from "../../Utils/Types";
 import AppPublisherSite from "./Site";
 import PublisherNewSite from "./NewSite";
+import OnNoAction from "./OnNoAction";
 
 export default class App {
   context: AppContextType;
@@ -49,4 +50,7 @@ export default class App {
       });
     });
   };
+
+  // If no action was found
+  onNoAction = OnNoAction;
 }

@@ -3,5 +3,9 @@
   "color": { "r": 241, "g": 155, "b": 71, "a": 1 },
   "icon": "FaFeatherAlt",
   "mobileSettings": { "actionsDisplayAs": "bottom-navigation" },
-  "handlerFor": { "publish-sites": "/publisher/{object:data.id}" }
+  "handlerFor": {
+    "publish-sites": "/publisher/{object:data.id}",
+    "publisher-pages": "/publisher/{object:data.site}/pages/{object:data.slug}"
+  },
+  "supportedMenus": [{ "id": "main", "subAllowed": true }]
 }
