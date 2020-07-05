@@ -61,7 +61,7 @@ const AppPublisherSiteMenuDetail: React.FC<{
   }, []);
 
   useEffect(() => {
-    setNewMenu((site.data.menus || {})[detailId]);
+    setNewMenu((site.data.menus || {})[detailId] || []);
   }, [site.data.menus]);
 
   // UI
