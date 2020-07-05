@@ -15,7 +15,7 @@ const AppPublisherSiteMenus: React.FC<{
   // Lifecycle
   useEffect(() => {
     const ml = [];
-    site.data.supported_menus.map((sm) => {
+    (site?.data?.supported_menus || []).map((sm) => {
       ml.push({ label: sm.id, id: sm.id, menu: sm });
     });
     setMenuList(ml);
