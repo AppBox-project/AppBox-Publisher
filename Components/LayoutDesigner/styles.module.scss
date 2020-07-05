@@ -1,0 +1,12 @@
+.designer {
+  border: 1px dotted #efefef;
+  box-sizing: border-box;
+  margin-right: 15px;
+  padding: 15px;
+  border-radius: 8px;
+  transition: all 0.3s;
+
+  &:hover {
+    border: 1px solid #efefef;
+  }
+}

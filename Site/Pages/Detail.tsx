@@ -32,14 +32,16 @@ const AppPublisherSitePagesDetail: React.FC<{
   // UI
   if (!page) return <context.UI.Loading />;
   return (
-    <context.UI.Animations.AnimationContainer>
-      <context.UI.Animations.AnimationItem>
-        <Typography variant="h4">{page.data.title}</Typography>
-      </context.UI.Animations.AnimationItem>
-      <context.UI.Animations.AnimationItem>
-        <PublisherLayoutDesigner />
-      </context.UI.Animations.AnimationItem>
-    </context.UI.Animations.AnimationContainer>
+    <div style={{ padding: "15px", boxSizing: "border-box" }}>
+      <context.UI.Animations.AnimationContainer>
+        <context.UI.Animations.AnimationItem>
+          <Typography variant="h4">{page.data.title}</Typography>
+        </context.UI.Animations.AnimationItem>
+        <context.UI.Animations.AnimationItem>
+          <PublisherLayoutDesigner layout={page.data.body} context={context} />
+        </context.UI.Animations.AnimationItem>
+      </context.UI.Animations.AnimationContainer>
+    </div>
   );
 };
 
