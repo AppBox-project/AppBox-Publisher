@@ -39,7 +39,16 @@ const AppPublisherSiteDesign: React.FC<{
                   modelId="publish-sites"
                   object={site}
                 />
-                <Button startIcon={<GrUpdate />}>Update</Button>
+                <Button
+                  startIcon={<GrUpdate />}
+                  onClick={() => {
+                    context.callBackendAction("updateSite", {
+                      id: site.data.id,
+                    });
+                  }}
+                >
+                  Update
+                </Button>
               </Paper>
             </context.UI.Animations.AnimationItem>
           </Grid>
