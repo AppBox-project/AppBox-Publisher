@@ -10,8 +10,16 @@ import {
   ListItemSecondaryAction,
   Tooltip,
   IconButton,
+  Button,
 } from "@material-ui/core";
-import { FaSitemap, FaCaretRight } from "react-icons/fa";
+import {
+  FaSitemap,
+  FaCaretRight,
+  FaCogs,
+  FaCaretUp,
+  FaCaretDown,
+} from "react-icons/fa";
+import { filter } from "lodash";
 
 interface MenuItem {
   title: string;
@@ -35,8 +43,6 @@ const AppPublisherSiteMenuDetail: React.FC<{
 
   // Lifecycle
   useEffect(() => {
-    console.log(site._id);
-
     const pageListener = context.getObjects(
       "publisher-pages",
       { "data.site": site._id },
@@ -53,6 +59,11 @@ const AppPublisherSiteMenuDetail: React.FC<{
       pageListener.stop();
     };
   }, []);
+
+  useEffect(() => {
+    setNewMenu((site.data.menus || {})[detailId]);
+  }, [site.data.menus]);
+
   // UI
   return (
     <context.UI.Animations.AnimationContainer>
@@ -67,23 +78,36 @@ const AppPublisherSiteMenuDetail: React.FC<{
               {pages.length > 0 ? (
                 <List>
                   {pages.map((page) => {
-                    return (
-                      <ListItem>
-                        <ListItemIcon>
-                          <FaSitemap />
-                        </ListItemIcon>
-                        <ListItemText>{page.data.title}</ListItemText>
-                        <ListItemSecondaryAction>
+                    if (
+                      filter(newMenu, (o) => o.page === page._id).length === 0 // Todo improve logic
+                    ) {
+                      return (
+                        <ListItem>
                           <ListItemIcon>
-                            <Tooltip placement="right" title="Add to menu">
-                              <IconButton>
-                                <FaCaretRight />
-                              </IconButton>
-                            </Tooltip>
+                            <FaSitemap />
                           </ListItemIcon>
-                        </ListItemSecondaryAction>
-                      </ListItem>
-                    );
+                          <ListItemText>{page.data.title}</ListItemText>
+                          <ListItemSecondaryAction>
+                            <ListItemIcon>
+                              <Tooltip placement="right" title="Add to menu">
+                                <IconButton
+                                  onClick={() => {
+                                    setNewMenu([
+                                      {
+                                        title: page.data.title,
+                                        page: page._id,
+                                      },
+                                    ]);
+                                  }}
+                                >
+                                  <FaCaretRight />
+                                </IconButton>
+                              </Tooltip>
+                            </ListItemIcon>
+                          </ListItemSecondaryAction>
+                        </ListItem>
+                      );
+                    }
                   })}
                 </List>
               ) : (
@@ -99,11 +123,56 @@ const AppPublisherSiteMenuDetail: React.FC<{
               style={{ margin: 15 }}
               title={`Menu: ${detailId}`}
             >
-              {detailId}
+              {newMenu.length > 0 ? (
+                <List>
+                  {newMenu.map((menuItem) => {
+                    return (
+                      <ListItem>
+                        <ListItemIcon>
+                          <Tooltip placement="left" title="Edit link">
+                            <IconButton>
+                              <FaCogs />
+                            </IconButton>
+                          </Tooltip>
+                        </ListItemIcon>
+                        <ListItemText>{menuItem.title}</ListItemText>
+                        <ListItemSecondaryAction>
+                          <IconButton>
+                            <FaCaretUp />
+                          </IconButton>
+                          <IconButton>
+                            <FaCaretDown />
+                          </IconButton>
+                        </ListItemSecondaryAction>
+                      </ListItem>
+                    );
+                  })}
+                </List>
+              ) : (
+                <Typography variant="body1">This menu is empty.</Typography>
+              )}
             </context.UI.Design.Card>
           </context.UI.Animations.AnimationItem>
         </Grid>
       </Grid>
+      {JSON.stringify(newMenu) !==
+        JSON.stringify((site.data?.menus || {})[detailId] || []) && (
+        <context.UI.Animations.AnimationItem>
+          <Button
+            fullWidth
+            color="primary"
+            variant="contained"
+            style={{ marginTop: 15 }}
+            onClick={() => {
+              const menus = site.data.menus || {};
+              menus[detailId] = newMenu;
+              context.updateObject("publish-sites", { menus }, site._id);
+            }}
+          >
+            Save
+          </Button>
+        </context.UI.Animations.AnimationItem>
+      )}
     </context.UI.Animations.AnimationContainer>
   );
 };

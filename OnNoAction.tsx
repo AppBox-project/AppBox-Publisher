@@ -38,7 +38,15 @@ const OnNoAction: React.FC<{
   }, [id]);
 
   // UI
-  return failure ? <>Not found</> : <context.UI.Loading label="Searching" />;
+  return id ? (
+    failure ? (
+      <>Not found</>
+    ) : (
+      <context.UI.Loading label="Searching" />
+    )
+  ) : (
+    <></>
+  );
 };
 
 export default OnNoAction;
