@@ -37,50 +37,49 @@ const AppPublisherSiteMenuDetail: React.FC<{
     params: { detailId },
   },
 }) => {
-  //Vars
-  const [newMenu, setNewMenu] = useState<MenuItem[]>([]);
-  const [pages, setPages] = useState<any>([]);
+    //Vars
+    const [newMenu, setNewMenu] = useState<MenuItem[]>([]);
+    const [pages, setPages] = useState<any>([]);
 
-  // Lifecycle
-  useEffect(() => {
-    const pageListener = context.getObjects(
-      "publisher-pages",
-      { "data.site": site._id },
-      (response) => {
-        if (response.success) {
-          setPages(response.data);
-        } else {
-          console.log(response);
+    // Lifecycle
+    useEffect(() => {
+      const pageListener = context.getObjects(
+        "publisher-pages",
+        { "data.site": site._id },
+        (response) => {
+          if (response.success) {
+            setPages(response.data);
+          } else {
+            console.log(response);
+          }
         }
-      }
-    );
+      );
 
-    return () => {
-      pageListener.stop();
-    };
-  }, []);
+      return () => {
+        pageListener.stop();
+      };
+    }, []);
 
-  useEffect(() => {
-    setNewMenu((site.data.menus || {})[detailId] || []);
-  }, [site.data.menus]);
+    useEffect(() => {
+      setNewMenu((site.data.menus || {})[detailId] || []);
+    }, [site.data.menus]);
 
-  // UI
-  return (
-    <context.UI.Animations.AnimationContainer>
-      <Grid container>
-        <Grid item xs={12} md={6}>
-          <context.UI.Animations.AnimationItem>
-            <context.UI.Design.Card
-              hoverable
-              style={{ margin: 15 }}
-              title={"Pages"}
-            >
-              {pages.length > 0 ? (
-                <List>
-                  {pages.map((page) => {
-                    if (
-                      filter(newMenu, (o) => o.page === page._id).length === 0 // Todo improve logic
-                    ) {
+    const np = filter(pages, p => filter(newMenu, (m) => m.page === p._id).length === 0)
+
+    // UI
+    return (
+      <context.UI.Animations.AnimationContainer>
+        <Grid container>
+          <Grid item xs={12} md={6}>
+            <context.UI.Animations.AnimationItem>
+              <context.UI.Design.Card
+                hoverable
+                style={{ margin: 15 }}
+                title={"Pages"}
+              >
+                {np.length > 0 ? (
+                  <List>
+                    {np.map((page) => {
                       return (
                         <ListItem>
                           <ListItemIcon>
@@ -92,11 +91,11 @@ const AppPublisherSiteMenuDetail: React.FC<{
                               <Tooltip placement="right" title="Add to menu">
                                 <IconButton
                                   onClick={() => {
-                                    setNewMenu([
-                                      {
-                                        title: page.data.title,
-                                        page: page._id,
-                                      },
+                                    setNewMenu([...newMenu,
+                                    {
+                                      title: page.data.title,
+                                      page: page._id,
+                                    },
                                     ]);
                                   }}
                                 >
@@ -107,74 +106,74 @@ const AppPublisherSiteMenuDetail: React.FC<{
                           </ListItemSecondaryAction>
                         </ListItem>
                       );
-                    }
-                  })}
-                </List>
-              ) : (
-                <Typography variant="body1">No pages exist.</Typography>
-              )}
-            </context.UI.Design.Card>
-          </context.UI.Animations.AnimationItem>
-        </Grid>
-        <Grid item xs={12} md={6}>
-          <context.UI.Animations.AnimationItem>
-            <context.UI.Design.Card
-              hoverable
-              style={{ margin: 15 }}
-              title={`Menu: ${detailId}`}
-            >
-              {newMenu.length > 0 ? (
-                <List>
-                  {newMenu.map((menuItem) => {
-                    return (
-                      <ListItem>
-                        <ListItemIcon>
-                          <Tooltip placement="left" title="Edit link">
+
+                    })}
+                  </List>
+                ) : (
+                    <Typography variant="body1">No pages exist.</Typography>
+                  )}
+              </context.UI.Design.Card>
+            </context.UI.Animations.AnimationItem>
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <context.UI.Animations.AnimationItem>
+              <context.UI.Design.Card
+                hoverable
+                style={{ margin: 15 }}
+                title={`Menu: ${detailId}`}
+              >
+                {newMenu.length > 0 ? (
+                  <List>
+                    {newMenu.map((menuItem) => {
+                      return (
+                        <ListItem>
+                          <ListItemIcon>
+                            <Tooltip placement="left" title="Edit link">
+                              <IconButton>
+                                <FaCogs />
+                              </IconButton>
+                            </Tooltip>
+                          </ListItemIcon>
+                          <ListItemText>{menuItem.title}</ListItemText>
+                          <ListItemSecondaryAction>
                             <IconButton>
-                              <FaCogs />
+                              <FaCaretUp />
                             </IconButton>
-                          </Tooltip>
-                        </ListItemIcon>
-                        <ListItemText>{menuItem.title}</ListItemText>
-                        <ListItemSecondaryAction>
-                          <IconButton>
-                            <FaCaretUp />
-                          </IconButton>
-                          <IconButton>
-                            <FaCaretDown />
-                          </IconButton>
-                        </ListItemSecondaryAction>
-                      </ListItem>
-                    );
-                  })}
-                </List>
-              ) : (
-                <Typography variant="body1">This menu is empty.</Typography>
-              )}
-            </context.UI.Design.Card>
-          </context.UI.Animations.AnimationItem>
+                            <IconButton>
+                              <FaCaretDown />
+                            </IconButton>
+                          </ListItemSecondaryAction>
+                        </ListItem>
+                      );
+                    })}
+                  </List>
+                ) : (
+                    <Typography variant="body1">This menu is empty.</Typography>
+                  )}
+              </context.UI.Design.Card>
+            </context.UI.Animations.AnimationItem>
+          </Grid>
         </Grid>
-      </Grid>
-      {JSON.stringify(newMenu) !==
-        JSON.stringify((site.data?.menus || {})[detailId] || []) && (
-        <context.UI.Animations.AnimationItem>
-          <Button
-            fullWidth
-            color="primary"
-            variant="contained"
-            style={{ marginTop: 15 }}
-            onClick={() => {
-              const menus = site.data.menus || {};
-              menus[detailId] = newMenu;
-              context.updateObject("publish-sites", { menus }, site._id);
-            }}
-          >
-            Save
+        {JSON.stringify(newMenu) !==
+          JSON.stringify((site.data?.menus || {})[detailId] || []) && (
+            <context.UI.Animations.AnimationItem>
+              <Button
+                fullWidth
+                color="primary"
+                variant="contained"
+                style={{ marginTop: 15 }}
+                onClick={() => {
+                  const menus = site.data.menus || {};
+                  menus[detailId] = newMenu;
+                  context.updateObject("publish-sites", { menus }, site._id);
+                }}
+              >
+                Save
           </Button>
-        </context.UI.Animations.AnimationItem>
-      )}
-    </context.UI.Animations.AnimationContainer>
-  );
-};
+            </context.UI.Animations.AnimationItem>
+          )}
+      </context.UI.Animations.AnimationContainer>
+    );
+  };
 
 export default AppPublisherSiteMenuDetail;
