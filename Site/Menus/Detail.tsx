@@ -24,6 +24,7 @@ import { filter } from "lodash";
 interface MenuItem {
   title: string;
   page: string;
+  to: string;
 }
 
 const AppPublisherSiteMenuDetail: React.FC<{
@@ -95,6 +96,7 @@ const AppPublisherSiteMenuDetail: React.FC<{
                                     {
                                       title: page.data.title,
                                       page: page._id,
+                                      to: page.data.slug
                                     },
                                     ]);
                                   }}

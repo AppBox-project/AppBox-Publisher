@@ -30,14 +30,17 @@ export interface BlockType {
 const PublisherLayoutDesigner: React.FC<{
   layout: DataType;
   context: AppContextType;
-  onSave: (response: DataType) => void;
+  onSave: (response: String) => void;
 }> = ({ context, layout, onSave }) => {
   // Vars
   const [newData, setNewData] = useState<DataType>({ layout: [], blocks: {} });
 
   // Lifecycle
   useEffect(() => {
-    setNewData(layout || { layout: [], blocks: {} });
+    if (typeof layout === "string") {
+      setNewData(JSON.parse(layout));
+    } else { setNewData(layout || { layout: [], blocks: {} }); }
+
   }, [layout]);
 
   // UI
@@ -59,10 +62,10 @@ const PublisherLayoutDesigner: React.FC<{
               );
             })
           ) : (
-            <Typography variant="body1" style={{ textAlign: "center" }}>
-              Nothing here.
-            </Typography>
-          )}
+              <Typography variant="body1" style={{ textAlign: "center" }}>
+                Nothing here.
+              </Typography>
+            )}
           <Button
             fullWidth
             color="primary"
@@ -91,20 +94,20 @@ const PublisherLayoutDesigner: React.FC<{
           Some information about this page
           {JSON.stringify(newData) !==
             JSON.stringify(layout || { layout: [], blocks: {} }) && (
-            <>
-              <br />
-              <Button
-                fullWidth
-                color="primary"
-                variant="contained"
-                onClick={() => {
-                  onSave(newData);
-                }}
-              >
-                Save
+              <>
+                <br />
+                <Button
+                  fullWidth
+                  color="primary"
+                  variant="contained"
+                  onClick={() => {
+                    onSave(JSON.stringify(newData));
+                  }}
+                >
+                  Save
               </Button>
-            </>
-          )}
+              </>
+            )}
         </context.UI.Design.Card>
       </Grid>
     </Grid>
