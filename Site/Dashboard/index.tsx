@@ -1,6 +1,6 @@
 import React from "react";
 import { AppContextType } from "../../../../Utils/Types";
-import { Typography, Paper, Grid, Button } from "@material-ui/core";
+import { Typography, Grid, Button } from "@material-ui/core";
 import styles from "./styles.module.scss";
 import { FaGlobeEurope } from "react-icons/fa";
 import { RiSendPlaneLine } from "react-icons/ri";
@@ -20,7 +20,7 @@ const AppPublisherSiteDashboard: React.FC<{
             style={{ padding: 10, boxSizing: "border-box" }}
           >
             <context.UI.Animations.AnimationItem>
-              <Paper className="paper">
+              <context.UI.Design.Card hoverable>
                 <Typography variant="h6" gutterBottom>
                   {site.data.name}
                 </Typography>
@@ -40,7 +40,7 @@ const AppPublisherSiteDashboard: React.FC<{
                 >
                   Publish
                 </Button>
-              </Paper>
+              </context.UI.Design.Card>
             </context.UI.Animations.AnimationItem>
           </Grid>
           <Grid
@@ -50,12 +50,12 @@ const AppPublisherSiteDashboard: React.FC<{
             style={{ padding: 10, boxSizing: "border-box" }}
           >
             <context.UI.Animations.AnimationItem>
-              <Paper className="paper">
+              <context.UI.Design.Card hoverable>
                 <Typography variant="h6" gutterBottom>
                   Statistics
                 </Typography>
                 Bla
-              </Paper>
+              </context.UI.Design.Card>
             </context.UI.Animations.AnimationItem>
           </Grid>
         </Grid>

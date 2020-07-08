@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { AppContextType } from "../../../../Utils/Types";
-import { Typography, Paper, Grid, Button } from "@material-ui/core";
+import { Typography, Grid, Button } from "@material-ui/core";
 import styles from "./styles.module.scss";
 import { GrUpdate } from "react-icons/gr";
 
@@ -30,7 +30,7 @@ const AppPublisherSiteDesign: React.FC<{
             style={{ padding: 10, boxSizing: "border-box" }}
           >
             <context.UI.Animations.AnimationItem>
-              <Paper className="paper">
+              <context.UI.Design.Card hoverable>
                 <Typography variant="h6" gutterBottom>
                   Design
                 </Typography>
@@ -49,12 +49,12 @@ const AppPublisherSiteDesign: React.FC<{
                 >
                   Update
                 </Button>
-              </Paper>
+              </context.UI.Design.Card>
             </context.UI.Animations.AnimationItem>
           </Grid>
           <Grid item xs={12} md={6}>
             <context.UI.Animations.AnimationItem>
-              <Paper className="paper">
+              <context.UI.Design.Card hoverable>
                 <Typography variant="h6" gutterBottom>
                   Design settings
                 </Typography>
@@ -103,7 +103,7 @@ const AppPublisherSiteDesign: React.FC<{
                     Update
                   </Button>
                 )}
-              </Paper>
+              </context.UI.Design.Card>
             </context.UI.Animations.AnimationItem>
           </Grid>
         </Grid>
