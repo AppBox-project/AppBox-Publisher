@@ -1,6 +1,7 @@
 import React from "react";
 import { BlockType, PublisherLDBlockDisplay } from "..";
 import { AppContextType } from "../../../../../Utils/Types";
+import { Grid } from "@material-ui/core";
 
 const PublisherLDTypeGrid: React.FC<{
   block: BlockType;
@@ -11,13 +12,10 @@ const PublisherLDTypeGrid: React.FC<{
   newData;
   setNewData;
 }> = ({ block, context, onChange, addButton, blocks, newData, setNewData }) => {
-  console.log(block?.children);
-
   return (
-    <>
+    <Grid container>
       {(block?.children || []).map((child) => {
         const block = blocks[child.id];
-        console.log(block);
         return (
           <PublisherLDBlockDisplay
             block={block}
@@ -29,7 +27,7 @@ const PublisherLDTypeGrid: React.FC<{
         );
       })}
       {addButton}
-    </>
+    </Grid>
   );
 };
 
