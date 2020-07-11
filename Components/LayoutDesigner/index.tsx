@@ -10,7 +10,7 @@ import { AppContextType } from "../../../../Utils/Types";
 import styles from "./styles.module.scss";
 import { FaPlus, FaCogs } from "react-icons/fa";
 import uniqid from "uniqid";
-import { PublisherLDTypeText } from "./ItemTypes";
+import { PublisherLDTypeText, PublisherLDTypeGrid } from "./ItemTypes";
 
 interface DataType {
   blocks: { [blockId: string]: BlockType };
@@ -22,9 +22,10 @@ interface LayoutType {
 }
 
 export interface BlockType {
-  type: "html" | "text" | "layoutitem" | "image";
+  type: "html" | "text" | "layoutitem" | "image" | "grid";
   title: string;
   content: string;
+  children?: { id: string }[];
 }
 
 const PublisherLayoutDesigner: React.FC<{
@@ -39,8 +40,9 @@ const PublisherLayoutDesigner: React.FC<{
   useEffect(() => {
     if (typeof layout === "string") {
       setNewData(JSON.parse(layout));
-    } else { setNewData(layout || { layout: [], blocks: {} }); }
-
+    } else {
+      setNewData(layout || { layout: [], blocks: {} });
+    }
   }, [layout]);
 
   // UI
@@ -52,7 +54,7 @@ const PublisherLayoutDesigner: React.FC<{
             newData.layout.map((layoutItem) => {
               const block = newData.blocks[layoutItem.id];
               return (
-                <BlockDisplay
+                <PublisherLDBlockDisplay
                   block={block}
                   context={context}
                   newData={newData}
@@ -62,10 +64,10 @@ const PublisherLayoutDesigner: React.FC<{
               );
             })
           ) : (
-              <Typography variant="body1" style={{ textAlign: "center" }}>
-                Nothing here.
-              </Typography>
-            )}
+            <Typography variant="body1" style={{ textAlign: "center" }}>
+              Nothing here.
+            </Typography>
+          )}
           <Button
             fullWidth
             color="primary"
@@ -94,27 +96,27 @@ const PublisherLayoutDesigner: React.FC<{
           Some information about this page
           {JSON.stringify(newData) !==
             JSON.stringify(layout || { layout: [], blocks: {} }) && (
-              <>
-                <br />
-                <Button
-                  fullWidth
-                  color="primary"
-                  variant="contained"
-                  onClick={() => {
-                    onSave(JSON.stringify(newData));
-                  }}
-                >
-                  Save
+            <>
+              <br />
+              <Button
+                fullWidth
+                color="primary"
+                variant="contained"
+                onClick={() => {
+                  onSave(JSON.stringify(newData));
+                }}
+              >
+                Save
               </Button>
-              </>
-            )}
+            </>
+          )}
         </context.UI.Design.Card>
       </Grid>
     </Grid>
   );
 };
 
-const BlockDisplay: React.FC<{
+const PublisherLDBlockDisplay: React.FC<{
   block: BlockType;
   context: AppContextType;
   newData;
@@ -141,6 +143,7 @@ const BlockDisplay: React.FC<{
               { label: "HTML", value: "html" },
               { label: "Item", value: "layoutitem" },
               { label: "Image", value: "image" },
+              { label: "Grid", value: "grid" },
             ]}
             onChange={(selected) => {
               const blocks = newData.blocks;
@@ -162,8 +165,52 @@ const BlockDisplay: React.FC<{
           }}
         />
       )}
+      {block.type === "grid" && (
+        <PublisherLDTypeGrid
+          block={block}
+          blocks={newData.blocks}
+          context={context}
+          onChange={(value) => {
+            const blocks = newData.blocks;
+            blocks[id].content = value;
+            setNewData({ ...newData, blocks });
+          }}
+          newData={newData}
+          setNewData={setNewData}
+          addButton={
+            <Button
+              fullWidth
+              color="primary"
+              startIcon={<FaPlus />}
+              onClick={() => {
+                const newId = uniqid();
+                const newChildren = newData?.blocks[id]?.children || [];
+                newChildren.push({ id: newId });
+                setNewData({
+                  layout: [...newData.layout],
+                  blocks: {
+                    ...newData.blocks,
+                    [id]: {
+                      ...newData.blocks[id],
+                      children: newChildren,
+                    },
+                    [newId]: {
+                      type: "text",
+                      title: "New block",
+                      content: "<h3>New block</h3><p>Edit this</p>",
+                    },
+                  },
+                });
+              }}
+            >
+              Add
+            </Button>
+          }
+        />
+      )}
     </context.UI.Design.Card>
   );
 };
 
 export default PublisherLayoutDesigner;
+export { PublisherLDBlockDisplay };
