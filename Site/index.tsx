@@ -6,6 +6,7 @@ import AppPublisherSiteDashboard from "./Dashboard";
 import AppPublisherSiteDesign from "./Design";
 import AppPublisherSitePages from "./Pages";
 import AppPublisherSiteMenus from "./Menus";
+import AppPublisherSiteData from "./Data";
 
 const AppPublisherSite: React.FC<{
   match: { isExact: boolean };
@@ -60,6 +61,9 @@ const AppPublisherSite: React.FC<{
       )}
       {currentTab === "menus" && (
         <AppPublisherSiteMenus context={context} site={site} />
+      )}
+      {currentTab === "data" && (
+        <AppPublisherSiteData context={context} site={site} />
       )}
     </>
   );
