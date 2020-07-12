@@ -12,6 +12,10 @@ export default class App {
     this.context = context;
   }
 
+  appConfig = {
+    actions: { mobile: { displayAs: "bottom-navigation" } },
+  };
+
   getActions = () => {
     return new Promise((resolve) => {
       this.context.getObjects("publish-sites", {}, (response) => {
