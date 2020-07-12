@@ -12,6 +12,7 @@ import styles from "./styles.module.scss";
 import { FaPlus, FaCogs } from "react-icons/fa";
 import uniqid from "uniqid";
 import { PublisherLDTypeText, PublisherLDTypeGrid } from "./ItemTypes";
+import PublisherLDTypeData from "./ItemTypes/Data";
 
 interface DataType {
   blocks: { [blockId: string]: BlockType };
@@ -23,7 +24,7 @@ interface LayoutType {
 }
 
 export interface BlockType {
-  type: "html" | "text" | "layoutitem" | "image" | "grid";
+  type: "html" | "text" | "layoutitem" | "image" | "grid" | "data";
   title: string;
   content: string;
   children?: { id: string }[];
@@ -32,6 +33,8 @@ export interface BlockType {
   md?;
   lg?;
   xl?;
+  dataType?: string;
+  dataDisplay?: "list" | "grid";
 }
 
 const PublisherLayoutDesigner: React.FC<{
@@ -229,6 +232,7 @@ const PublisherLDBlockDisplay: React.FC<{
                 { label: "Item", value: "layoutitem" },
                 { label: "Image", value: "image" },
                 { label: "Grid", value: "grid" },
+                { label: "Data", value: "data" },
               ]}
               onChange={(selected) => {
                 const blocks = newData.blocks;
@@ -246,6 +250,17 @@ const PublisherLDBlockDisplay: React.FC<{
             onChange={(value) => {
               const blocks = newData.blocks;
               blocks[id].content = value;
+              setNewData({ ...newData, blocks });
+            }}
+          />
+        )}
+        {block.type === "data" && (
+          <PublisherLDTypeData
+            block={block}
+            context={context}
+            onChange={(newBlock) => {
+              const blocks = newData.blocks;
+              blocks[id] = newBlock;
               setNewData({ ...newData, blocks });
             }}
           />
