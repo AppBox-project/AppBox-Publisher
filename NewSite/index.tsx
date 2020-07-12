@@ -16,7 +16,7 @@ const PublisherNewSite: React.FC<{ context: AppContextType }> = ({
         <context.UI.Loading label="Building..." />
       ) : (
         <context.UI.Layouts.GridItemLayout
-          remoteList="https://appbox.vicvancooten.nl/api/publisher-designs/read"
+          remoteList="https://appbox.vicvancooten.nl/api/publisher-designs/read?baseUrl=base"
           title="Pick a design"
           dataMap={{
             title: "data.name",
