@@ -41,8 +41,12 @@ const AppPublisherSitePagesDetail: React.FC<{
           <PublisherLayoutDesigner
             layout={page.data.body}
             context={context}
-            onSave={(body) => {
-              context.updateObject("publisher-pages", { body }, page._id);
+            onSave={(body, dependencies) => {
+              context.updateObject(
+                "publisher-pages",
+                { body, dependencies },
+                page._id
+              );
             }}
           />
         </context.UI.Animations.AnimationItem>

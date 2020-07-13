@@ -13,6 +13,7 @@ import { FaPlus, FaCogs } from "react-icons/fa";
 import uniqid from "uniqid";
 import { PublisherLDTypeText, PublisherLDTypeGrid } from "./ItemTypes";
 import PublisherLDTypeData from "./ItemTypes/Data";
+import { map } from "lodash";
 
 interface DataType {
   blocks: { [blockId: string]: BlockType };
@@ -40,7 +41,7 @@ export interface BlockType {
 const PublisherLayoutDesigner: React.FC<{
   layout: DataType;
   context: AppContextType;
-  onSave: (response: String) => void;
+  onSave: (response: String, dependencies: string[]) => void;
 }> = ({ context, layout, onSave }) => {
   // Vars
   const [newData, setNewData] = useState<DataType>({ layout: [], blocks: {} });
@@ -115,7 +116,16 @@ const PublisherLayoutDesigner: React.FC<{
                 color="primary"
                 variant="contained"
                 onClick={() => {
-                  onSave(JSON.stringify(newData));
+                  // Add dependencies to the page
+                  const deps = [];
+                  map(newData.blocks, (block) => {
+                    if (block.dataType) {
+                      deps.push(block.dataType);
+                    }
+                  });
+
+                  // Call onSave
+                  onSave(JSON.stringify(newData), deps);
                 }}
               >
                 Save
