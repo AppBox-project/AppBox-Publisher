@@ -25,6 +25,7 @@ const AppPublisherSiteMenus: React.FC<{
   return (
     <context.UI.Layouts.ListDetailLayout
       list={menuList}
+      title="Menus"
       baseUrl={`/publisher/${site.data.id}/menus`}
       DetailComponent={AppPublisherSiteMenuDetail}
       context={context}

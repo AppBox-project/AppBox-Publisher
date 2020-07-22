@@ -23,17 +23,9 @@ const AppPublisherSiteDesign: React.FC<{
     <div className={styles.root}>
       <context.UI.Animations.AnimationContainer>
         <Grid container>
-          <Grid
-            item
-            xs={12}
-            md={6}
-            style={{ padding: 10, boxSizing: "border-box" }}
-          >
+          <Grid item xs={12} md={6}>
             <context.UI.Animations.AnimationItem>
-              <context.UI.Design.Card hoverable>
-                <Typography variant="h6" gutterBottom>
-                  Design
-                </Typography>
+              <context.UI.Design.Card withSmallMargin title="Design">
                 <context.UI.Field
                   fieldId="design"
                   modelId="publish-sites"
@@ -54,10 +46,7 @@ const AppPublisherSiteDesign: React.FC<{
           </Grid>
           <Grid item xs={12} md={6}>
             <context.UI.Animations.AnimationItem>
-              <context.UI.Design.Card hoverable>
-                <Typography variant="h6" gutterBottom>
-                  Design settings
-                </Typography>
+              <context.UI.Design.Card withSmallMargin title="Design settings">
                 <Grid container>
                   {site.data.design_settings.map((dsetting) => {
                     return (

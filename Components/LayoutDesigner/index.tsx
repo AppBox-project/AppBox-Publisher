@@ -105,7 +105,7 @@ const PublisherLayoutDesigner: React.FC<{
         </div>
       </Grid>
       <Grid item xs={12} md={3}>
-        <context.UI.Design.Card title="Page settings">
+        <context.UI.Design.Card title="Page settings" centerTitle titleDivider>
           Some information about this page
           {JSON.stringify(newData) !==
             JSON.stringify(layout || { layout: [], blocks: {} }) && (

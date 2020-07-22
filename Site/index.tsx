@@ -1,12 +1,21 @@
 import React, { useState, useEffect } from "react";
 import { AppContextType } from "../../../Utils/Types";
 import { useHistory } from "react-router-dom";
-import { Tabs, Tab } from "@material-ui/core";
+import { Tabs, Tab, makeStyles } from "@material-ui/core";
 import AppPublisherSiteDashboard from "./Dashboard";
 import AppPublisherSiteDesign from "./Design";
 import AppPublisherSitePages from "./Pages";
 import AppPublisherSiteMenus from "./Menus";
 import AppPublisherSiteData from "./Data";
+
+const useStyles = makeStyles((theme) => ({
+  customTabRoot: {
+    color: "white",
+  },
+  customTabIndicator: {
+    backgroundColor: "white",
+  },
+}));
 
 const AppPublisherSite: React.FC<{
   match: { isExact: boolean };
@@ -21,6 +30,7 @@ const AppPublisherSite: React.FC<{
     ? window.location.href.split(`publisher/${action}/`)[1].split("/")[0]
     : window.location.href.split(`publisher/${action}/`)[1];
   const history = useHistory();
+  const classes = useStyles();
 
   // Lifecycle
   useEffect(() => {
@@ -31,6 +41,7 @@ const AppPublisherSite: React.FC<{
 
   // UI
   if (!site) return <context.UI.Loading />;
+
   return (
     <>
       <Tabs
@@ -38,10 +49,12 @@ const AppPublisherSite: React.FC<{
         onChange={(event, value) => {
           history.push(`/publisher/${action}/${value}`);
         }}
-        indicatorColor="primary"
-        textColor="primary"
         aria-label="Site aspects navigation"
         variant="scrollable"
+        classes={{
+          root: classes.customTabRoot,
+          indicator: classes.customTabIndicator,
+        }}
       >
         <Tab label="Dashboard" value="dashboard" />
         <Tab label="Design" value="design" />

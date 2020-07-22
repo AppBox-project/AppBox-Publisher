@@ -32,26 +32,30 @@ const AppPublisherSitePagesDetail: React.FC<{
   // UI
   if (!page) return <context.UI.Loading />;
   return (
-    <div style={{ padding: "15px", boxSizing: "border-box" }}>
-      <context.UI.Animations.AnimationContainer>
-        <context.UI.Animations.AnimationItem>
-          <Typography variant="h4">{page.data.title}</Typography>
-        </context.UI.Animations.AnimationItem>
-        <context.UI.Animations.AnimationItem>
-          <PublisherLayoutDesigner
-            layout={page.data.body}
-            context={context}
-            onSave={(body, dependencies) => {
-              context.updateObject(
-                "publisher-pages",
-                { body, dependencies },
-                page._id
-              );
-            }}
-          />
-        </context.UI.Animations.AnimationItem>
-      </context.UI.Animations.AnimationContainer>
-    </div>
+    <context.UI.Animations.AnimationContainer>
+      <context.UI.Animations.AnimationItem>
+        <context.UI.Design.Card withBigMargin>
+          <context.UI.Animations.AnimationContainer>
+            <context.UI.Animations.AnimationItem>
+              <Typography variant="h4">{page.data.title}</Typography>
+            </context.UI.Animations.AnimationItem>
+            <context.UI.Animations.AnimationItem>
+              <PublisherLayoutDesigner
+                layout={page.data.body}
+                context={context}
+                onSave={(body, dependencies) => {
+                  context.updateObject(
+                    "publisher-pages",
+                    { body, dependencies },
+                    page._id
+                  );
+                }}
+              />
+            </context.UI.Animations.AnimationItem>
+          </context.UI.Animations.AnimationContainer>
+        </context.UI.Design.Card>
+      </context.UI.Animations.AnimationItem>
+    </context.UI.Animations.AnimationContainer>
   );
 };
 

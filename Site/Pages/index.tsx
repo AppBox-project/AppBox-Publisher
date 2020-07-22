@@ -35,6 +35,7 @@ const AppPublisherSitePages: React.FC<{
   return (
     <context.UI.Layouts.ListDetailLayout
       context={context}
+      title="Pages"
       baseUrl={`/publisher/${site.data.id}/pages`}
       DetailComponent={AppPublisherSitePagesDetail}
       detailComponentProps={{ site, pages }}
