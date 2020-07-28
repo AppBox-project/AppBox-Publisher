@@ -23,7 +23,7 @@ const OnNoAction: React.FC<{
         if (response.success) {
           if (response.data[0]) {
             // Redirect to site name
-            history.push(pathname.replace(id, response.data[0].data.id));
+            history.replace(pathname.replace(id, response.data[0].data.id));
           } else {
             setFailure(true);
           }
