@@ -24,7 +24,7 @@ const AppPublisherSiteDataEditor: React.FC<{
     <context.UI.Layouts.Object.ObjectLayout
       model={model}
       layoutId="default"
-      appId="publisher"
+      context={context}
       objectId={detailId}
     />
   );
